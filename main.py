@@ -1,10 +1,13 @@
+import tkinter
 import customtkinter as CTk
+from string import ascii_lowercase,ascii_uppercase,digits,punctuation
 from PIL import Image
 
 class App(CTk.CTk):
     def __init__(self) -> None:
         super().__init__()
 
+        CTk.set_appearance_mode("Dark")
         self.geometry("460x370")
         self.title("Password Generator")
         self.resizable(False,False)
@@ -31,9 +34,30 @@ class App(CTk.CTk):
         self.password_lengh_slider.grid(row=1, column=0,columnspan= 3,pady = (20,20), sticky="ew")
 
         self.password_lengh_entry = CTk.CTkEntry(master=self.settings_frame,width=50)
-        self.password_lengh_slider.grid(row=1, column= 3,padx= (20,10),sticky="we")
+        self.password_lengh_entry.grid(row=1, column= 3,padx= (20,10),sticky="we")
 
-        
+        self.cb_digits_var = tkinter.StringVar()
+        self.cb_digits = CTk.CTkCheckBox(master=self.settings_frame, text = "0-9", variable=self.cb_digits_var,
+                                         onvalue=digits, offvalue="")
+        self.cb_digits.grid(row = 2,column = 0,padx=10)
+
+        self.cb_lower_var = tkinter.StringVar()
+        self.cb_lower = CTk.CTkCheckBox(master=self.settings_frame, text = "a-z", variable=self.cb_lower_var,
+                                         onvalue=ascii_lowercase, offvalue="")
+        self.cb_lower.grid(row=2,column=1)
+
+        self.cb_upper_var = tkinter.StringVar()
+        self.cb_upper = CTk.CTkCheckBox(master=self.settings_frame, text = "A-Z", variable=self.cb_upper_var,
+                                         onvalue=ascii_uppercase, offvalue="")
+        self.cb_upper.grid(row=2,column=2)
+
+        self.cb_symbol_var = tkinter.StringVar()
+        self.cb_symbol = CTk.CTkCheckBox(master=self.settings_frame, text = "#@$%", variable=self.cb_symbol_var,
+                                         onvalue=punctuation, offvalue="")
+        self.cb_symbol.grid(row=2,column=3)
+
+        self.current_appearance_mode = CTk.CTkLabel(master= self.settings_frame, text= "Dark")
+        self.current_appearance_mode.grid(row=4,column=0, columnspan= 4, padx=(10,10), pady = (15,15))
 
     def slider_event(self):
         pass
