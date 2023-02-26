@@ -1,5 +1,6 @@
 import tkinter
 import customtkinter as CTk
+import password
 from string import ascii_lowercase,ascii_uppercase,digits,punctuation
 from PIL import Image
 
@@ -32,9 +33,11 @@ class App(CTk.CTk):
         self.password_lengh_slider = CTk.CTkSlider(master=self.settings_frame, from_=1, to=50, number_of_steps=50,
                                                    command=self.slider_event)
         self.password_lengh_slider.grid(row=1, column=0,columnspan= 3,pady = (20,20), sticky="ew")
+        self.password_lengh_slider.set(12)
 
         self.password_lengh_entry = CTk.CTkEntry(master=self.settings_frame,width=50)
         self.password_lengh_entry.grid(row=1, column= 3,padx= (20,10),sticky="we")
+        self.password_lengh_entry.insert(0,12)
 
         self.cb_digits_var = tkinter.StringVar()
         self.cb_digits = CTk.CTkCheckBox(master=self.settings_frame, text = "0-9", variable=self.cb_digits_var,
@@ -59,11 +62,17 @@ class App(CTk.CTk):
         self.current_appearance_mode = CTk.CTkLabel(master= self.settings_frame, text= "Dark")
         self.current_appearance_mode.grid(row=4,column=0, columnspan= 4, padx=(10,10), pady = (15,15))
 
-    def slider_event(self):
-        pass
+    def slider_event(self,value):
+        self.password_lengh_entry.delete(0,"end")
+        self.password_lengh_entry.insert(0,int(value))
+
+    def get_characters(self):
+        chars = "".join(self.cb_digits_var.get() + self.cb_lower_var.get() + self.cb_upper_var.get() + self.cb_symbol_var.get())
+        return chars
 
     def set_password(self):
-        pass
+        self.entry_password.delete(0,"end")
+        self.entry_password.insert(0, password.create_new(lengh = int(self.password_lengh_slider.get()), characters=self.get_characters()))
 
 
 if __name__ == "__main__":
